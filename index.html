@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>منصة MR Mes</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .box {
+      background: #1e293b;
+      padding: 30px;
+      border-radius: 12px;
+      width: 350px;
+    }
+
+    input, textarea, button {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 6px;
+      border: none;
+    }
+
+    button {
+      background: #22c55e;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="box">
+    <h2>طلب خدمة</h2>
+    <input type="text" id="name" placeholder="الاسم" />
+    <input type="text" id="phone" placeholder="رقم الهاتف" />
+    <textarea id="details" placeholder="تفاصيل الطلب"></textarea>
+    <button onclick="sendData()">إرسال</button>
+  </div>
+
+<script>
+const supabaseUrl = "https://qubtgifclqckwlozwvsc.supabase.co";
+const supabaseKey = "sb_publishable_BQ7b650L4UeuBZSSU55O2A_8rX7vE32";
+const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+async function sendData() {
+  const name = document.getElementById("name").value;
+  const phone = document.getElementById("phone").value;
+  const details = document.getElementById("details").value;
+
+  const { error } = await supabase.from("orders").insert([
+    { name, phone, details }
+  ]);
+
+  if (error) {
+    alert("حصل خطأ");
+  } else {
+    alert("تم إرسال الطلب بنجاح");
+  }
+}
+</script>
+
+</body>
+</html>
