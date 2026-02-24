@@ -6,23 +6,27 @@
   <title>MRMES · الوكالة الرقمية 👑</title>
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Cairo:wght@400;600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <!-- Font Awesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    html {
-      scroll-behavior: smooth;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; 
+        -webkit-tap-highlight-color: transparent; }
+    html { scroll-behavior: smooth; }
     body {
       background: #0a0a0e;
       color: #fff;
       font-family: 'Cairo', 'Poppins', sans-serif;
       overflow-x: hidden;
-      position: relative;
+      user-select: none; /* منع تحديد النص */
+      -webkit-user-drag: none; /* منع سحب العناصر */
+    }
+    img {
+      pointer-events: none; /* منع التفاعل مع الصور (يمنع الحفظ بالنقر الأيمن) */
+      -webkit-touch-callout: none;
     }
     :root {
       --gold1: #f9e27d;
@@ -35,10 +39,8 @@
     /* خلفية متحركة */
     #bg-canvas {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       z-index: -2;
       opacity: 0.15;
       pointer-events: none;
@@ -58,7 +60,6 @@
       font-weight: 700;
       color: #000;
       font-size: 1rem;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
     }
     .ticker-track {
       white-space: nowrap;
@@ -69,7 +70,7 @@
       100% { transform: translateX(100%); }
     }
 
-    /* زر تبديل اللغة */
+    /* زر اللغة */
     .lang-switch {
       position: fixed;
       top: 60px;
@@ -99,434 +100,293 @@
       color: #000;
     }
 
-    /* هيدر */
-    .hero {
-      padding: 150px 20px 70px;
-      text-align: center;
-    }
-    .logo-wrapper {
-      position: relative;
-      display: inline-block;
-      margin-bottom: 20px;
-    }
-    .logo-text {
-      font-family: 'Cinzel', serif;
-      font-size: 75px;
-      letter-spacing: 6px;
-      background: linear-gradient(135deg, #f9e27d, #d4af37, #b8860b);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 0 20px rgba(212,175,55,0.5));
-    }
-    .crown {
-      position: absolute;
-      top: -55px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80px;
-      animation: crownGlow 3s infinite alternate;
-    }
-    @keyframes crownGlow {
-      0% { filter: drop-shadow(0 0 5px #d4af37); transform: translateX(-50%) translateY(0); }
-      100% { filter: drop-shadow(0 0 30px #f9e27d); transform: translateX(-50%) translateY(-8px); }
-    }
-    .subhead {
-      font-size: 2rem;
-      font-weight: 700;
-      background: linear-gradient(45deg, #fff, #f9e27d);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin: 10px 0;
-    }
-    .hero-desc {
-      max-width: 750px;
-      margin: 15px auto 0;
-      font-size: 1.2rem;
-      opacity: 0.9;
-    }
-
-    /* حاوية */
-    .container {
-      max-width: 1300px;
-      margin: 0 auto;
-      padding: 0 25px;
-    }
-    section {
-      padding: 70px 0;
-      border-bottom: 1px solid rgba(212,175,55,0.1);
-    }
-    .section-title {
-      font-size: 2.6rem;
-      text-align: center;
-      margin-bottom: 50px;
-      background: linear-gradient(135deg, #f9e27d, #d4af37);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      position: relative;
-    }
-    .section-title::after {
-      content: '';
-      display: block;
-      width: 90px;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, #d4af37, transparent);
-      margin: 15px auto 0;
-    }
-
-    /* بطاقات الخدمات */
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 30px;
-      margin: 40px 0;
-    }
-    .service-card {
-      background: var(--glass);
-      backdrop-filter: blur(10px);
-      border: 1px solid var(--glass-border);
-      border-radius: 30px;
-      padding: 35px 20px;
-      text-align: center;
-      transition: 0.4s;
-      box-shadow: 0 10px 25px -10px rgba(0,0,0,0.7);
-    }
-    .service-card:hover {
-      transform: translateY(-12px);
-      border-color: var(--gold2);
-      box-shadow: 0 20px 40px rgba(212,175,55,0.3);
-    }
-    .service-icon {
-      font-size: 3.5rem;
-      color: var(--gold2);
-      margin-bottom: 20px;
-    }
-    .service-card h3 {
-      font-size: 2rem;
-      margin-bottom: 10px;
-    }
-    .service-price {
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--gold1);
-      margin: 15px 0 5px;
-    }
-
-    /* معرض الأعمال (Portfolio) مع صور كثيرة */
-    .portfolio-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 25px;
-    }
-    .portfolio-item {
-      border-radius: 25px;
-      overflow: hidden;
-      position: relative;
-      aspect-ratio: 1/1;
-      border: 1px solid var(--glass-border);
-    }
-    .portfolio-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: 0.5s;
-    }
-    .portfolio-overlay {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: linear-gradient(to top, #000, transparent);
-      padding: 20px;
-      transform: translateY(100%);
-      transition: 0.4s;
-    }
-    .portfolio-item:hover .portfolio-overlay {
-      transform: translateY(0);
-    }
-    .portfolio-item:hover img {
-      transform: scale(1.1);
-    }
-
-    /* تصاميم تسويقية إضافية (شبكة أعمال كثيرة) */
-    .showcase-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 30px;
-      margin: 50px 0;
-    }
-    .showcase-item {
-      border-radius: 30px;
-      overflow: hidden;
-      position: relative;
-      aspect-ratio: 4/3;
-      border: 1px solid var(--glass-border);
-      transition: 0.4s;
-    }
-    .showcase-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: 0.5s;
-    }
-    .showcase-overlay {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: linear-gradient(to top, #000, transparent);
-      padding: 25px;
-      transform: translateY(100%);
-      transition: 0.4s;
-    }
-    .showcase-item:hover .showcase-overlay {
-      transform: translateY(0);
-    }
-    .showcase-item:hover img {
-      transform: scale(1.1);
-    }
-    .showcase-overlay h4 {
-      font-size: 1.8rem;
-      color: var(--gold2);
-      margin-bottom: 8px;
-    }
-    .showcase-overlay p {
-      margin-bottom: 12px;
-      opacity: 0.9;
-    }
-    .btn-small {
-      background: var(--gold2);
-      color: #000;
-      border: none;
-      padding: 8px 20px;
-      border-radius: 40px;
+    /* زر الدخول للوحة التحكم */
+    .admin-login-btn {
+      position: fixed;
+      top: 60px;
+      left: 20px;
+      z-index: 9998;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--gold2);
+      border-radius: 50px;
+      padding: 8px 18px;
+      color: #fff;
       font-weight: 600;
       cursor: pointer;
       transition: 0.3s;
-      font-size: 0.95rem;
     }
-    .btn-small:hover {
-      background: #fff;
+    .admin-login-btn:hover {
+      background: var(--gold2);
+      color: #000;
     }
 
-    /* النموذج الذكي */
-    .form-block {
-      background: rgba(20,20,30,0.9);
-      backdrop-filter: blur(12px);
-      border: 1px solid var(--glass-border);
-      border-radius: 50px;
-      padding: 50px;
-      margin: 70px 0;
-      box-shadow: 0 30px 50px rgba(0,0,0,0.7);
+    /* باقي الأنماط (ثابتة) */
+    .hero { padding: 150px 20px 70px; text-align: center; }
+    .logo-wrapper { position: relative; display: inline-block; margin-bottom: 20px; }
+    .logo-text { font-family: 'Cinzel', serif; font-size: 75px; letter-spacing: 6px; background: linear-gradient(135deg, #f9e27d, #d4af37, #b8860b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 20px rgba(212,175,55,0.5)); }
+    .crown { position: absolute; top: -55px; left: 50%; transform: translateX(-50%); width: 80px; animation: crownGlow 3s infinite alternate; }
+    @keyframes crownGlow { 0% { filter: drop-shadow(0 0 5px #d4af37); transform: translateX(-50%) translateY(0); } 100% { filter: drop-shadow(0 0 30px #f9e27d); transform: translateX(-50%) translateY(-8px); } }
+    .subhead { font-size: 2rem; font-weight: 700; background: linear-gradient(45deg, #fff, #f9e27d); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 10px 0; }
+    .hero-desc { max-width: 750px; margin: 15px auto 0; font-size: 1.2rem; opacity: 0.9; }
+
+    .container { max-width: 1300px; margin: 0 auto; padding: 0 25px; }
+    section { padding: 70px 0; border-bottom: 1px solid rgba(212,175,55,0.1); }
+    .section-title { font-size: 2.6rem; text-align: center; margin-bottom: 50px; background: linear-gradient(135deg, #f9e27d, #d4af37); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .section-title::after { content: ''; display: block; width: 90px; height: 3px; background: linear-gradient(90deg, transparent, #d4af37, transparent); margin: 15px auto 0; }
+
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 30px; margin: 40px 0; }
+    .service-card { background: var(--glass); backdrop-filter: blur(10px); border: 1px solid var(--glass-border); border-radius: 30px; padding: 35px 20px; text-align: center; transition: 0.4s; }
+    .service-card:hover { transform: translateY(-12px); border-color: var(--gold2); box-shadow: 0 20px 40px rgba(212,175,55,0.3); }
+    .service-icon { font-size: 3.5rem; color: var(--gold2); margin-bottom: 20px; }
+    .service-card h3 { font-size: 2rem; margin-bottom: 10px; }
+    .service-price { font-size: 1.8rem; font-weight: 700; color: var(--gold1); margin: 15px 0 5px; }
+
+    .portfolio-grid, .showcase-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin: 40px 0; }
+    .portfolio-item, .showcase-item { border-radius: 25px; overflow: hidden; position: relative; aspect-ratio: 1/1; border: 1px solid var(--glass-border); }
+    .portfolio-item img, .showcase-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+    .portfolio-overlay, .showcase-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, #000, transparent); padding: 20px; transform: translateY(100%); transition: 0.4s; }
+    .portfolio-item:hover .portfolio-overlay, .showcase-item:hover .showcase-overlay { transform: translateY(0); }
+    .btn-small { background: var(--gold2); color: #000; border: none; padding: 8px 20px; border-radius: 40px; font-weight: 600; cursor: pointer; transition: 0.3s; text-decoration: none; display: inline-block; margin-top: 8px; }
+
+    .form-block { background: rgba(20,20,30,0.9); backdrop-filter: blur(12px); border: 1px solid var(--glass-border); border-radius: 50px; padding: 50px; margin: 70px 0; }
+    input, select, textarea { width: 100%; padding: 16px 22px; background: rgba(255,255,255,0.05); border: 1px solid #333; border-radius: 40px; color: #fff; font-family: inherit; font-size: 1rem; transition: 0.3s; }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--gold2); box-shadow: 0 0 20px rgba(212,175,55,0.5); }
+    .btn-gold { width: 100%; padding: 18px; background: linear-gradient(45deg, #d4af37, #f9e27d); border: none; border-radius: 60px; font-weight: 700; font-size: 1.3rem; color: #000; cursor: pointer; transition: 0.3s; }
+    .btn-gold:hover { transform: scale(1.02); box-shadow: 0 0 40px #f9e27d; }
+
+    .whatsapp-float { position: fixed; bottom: 30px; right: 30px; background: linear-gradient(145deg, #d4af37, #f9e27d); border-radius: 60px; padding: 14px 28px; display: flex; align-items: center; gap: 12px; box-shadow: 0 0 35px #d4af37; z-index: 999; color: #000; font-weight: 700; text-decoration: none; }
+    .whatsapp-float i { font-size: 2.2rem; }
+
+    footer { text-align: center; padding: 35px; border-top: 1px solid rgba(212,175,55,0.2); }
+
+    /* مودال لوحة التحكم */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.95);
+      z-index: 10000;
+      justify-content: center;
+      align-items: center;
     }
-    .input-group {
-      margin-bottom: 25px;
-    }
-    input, select, textarea {
-      width: 100%;
-      padding: 16px 22px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid #333;
+    .modal.active { display: flex; }
+    .modal-content {
+      background: #1a1a1f;
+      border: 1px solid var(--gold2);
       border-radius: 40px;
-      color: #fff;
-      font-family: inherit;
-      font-size: 1rem;
-      transition: 0.3s;
+      padding: 40px;
+      max-width: 700px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
     }
-    input:focus, select:focus, textarea:focus {
-      outline: none;
-      border-color: var(--gold2);
-      box-shadow: 0 0 20px rgba(212,175,55,0.5);
-    }
-    .btn-gold {
+    .modal-content h2, .modal-content h3 { color: var(--gold2); margin-bottom: 20px; }
+    .modal-content input, .modal-content select, .modal-content textarea {
       width: 100%;
-      padding: 18px;
+      padding: 14px 20px;
+      margin: 10px 0;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid #333;
+      border-radius: 30px;
+      color: #fff;
+    }
+    .modal-content button {
       background: linear-gradient(45deg, #d4af37, #f9e27d);
       border: none;
-      border-radius: 60px;
+      padding: 14px;
+      border-radius: 40px;
       font-weight: 700;
-      font-size: 1.3rem;
-      color: #000;
       cursor: pointer;
-      transition: 0.3s;
+      width: 100%;
+      margin-top: 10px;
     }
-    .btn-gold:hover {
-      transform: scale(1.02);
-      box-shadow: 0 0 40px #f9e27d;
-    }
-
-    /* واتساب خدمة العملاء */
-    .whatsapp-float {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      background: linear-gradient(145deg, #d4af37, #f9e27d);
-      border-radius: 60px;
-      padding: 14px 28px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      box-shadow: 0 0 35px #d4af37;
-      z-index: 999;
-      transition: 0.3s;
-      color: #000;
-      font-weight: 700;
-      text-decoration: none;
-      font-size: 1.2rem;
-    }
-    .whatsapp-float i {
-      font-size: 2.2rem;
-    }
-    .whatsapp-float:hover {
-      transform: scale(1.08);
-      background: linear-gradient(145deg, #f9e27d, #d4af37);
-    }
-
-    footer {
-      text-align: center;
-      padding: 35px;
-      border-top: 1px solid rgba(212,175,55,0.2);
-    }
-
-    @media (max-width: 700px) {
-      .logo-text { font-size: 55px; }
-      .subhead { font-size: 1.6rem; }
-      .section-title { font-size: 2rem; }
-      .form-block { padding: 30px 20px; }
-      .whatsapp-float span { display: none; }
-      .whatsapp-float { padding: 18px; border-radius: 50%; }
-    }
+    .logout-btn { background: #c0392b !important; color: white; margin-top: 20px; }
+    .item-list { margin-top: 20px; border-top: 1px solid #333; padding-top: 20px; }
+    .item-card { background: #2a2a30; border-radius: 20px; padding: 15px; margin-bottom: 15px; display: flex; gap: 15px; align-items: center; }
+    .item-card img { width: 60px; height: 60px; border-radius: 10px; object-fit: cover; }
+    .item-actions button { margin: 0 5px; padding: 5px 10px; width: auto; background: var(--gold2); }
+    .tab-buttons { display: flex; gap: 10px; margin-bottom: 20px; }
+    .tab-btn { background: #333; border: none; color: #fff; padding: 10px; border-radius: 20px; cursor: pointer; flex: 1; }
+    .tab-btn.active { background: var(--gold2); color: #000; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .owner-badge { background: #27ae60; color: #fff; padding: 2px 8px; border-radius: 20px; font-size: 0.8rem; margin-left: 5px; }
   </style>
 </head>
 <body>
   <canvas id="bg-canvas"></canvas>
 
-  <div class="top-ticker">
-    <div class="ticker-track" id="tickerText">
-      ✨ جميع التصميمات تُنفذ تحت نخبة من الخبراء | يتم عرض كل مشروع على مصممين متخصصين للتقييم وضمان أعلى جودة قبل التسليم ✨
-    </div>
-  </div>
+  <div class="top-ticker"><div class="ticker-track" id="tickerText">✨ جميع التصميمات تُنفذ تحت نخبة من الخبراء ...</div></div>
 
   <div class="lang-switch">
     <button id="langAr" class="active">عربي</button>
     <button id="langEn">English</button>
   </div>
 
+  <div class="admin-login-btn" id="adminLoginBtn"><i class="fas fa-lock"></i> Admin</div>
+
+  <div class="modal" id="adminModal">
+    <div class="modal-content" id="modalContent"></div>
+  </div>
+
+  <!-- الهيدر -->
   <section class="hero">
     <div class="logo-wrapper">
-      <svg class="crown" viewBox="0 0 512 512">
-        <path fill="#d4af37" d="M256 32l58 150 166-54-92 220H124L32 128l166 54z"/>
-      </svg>
+      <svg class="crown" viewBox="0 0 512 512"><path fill="#d4af37" d="M256 32l58 150 166-54-92 220H124L32 128l166 54z"/></svg>
       <div class="logo-text">MRMES</div>
     </div>
     <div class="subhead" id="heroSubhead">وكالة إبداع رقمي متكاملة 👑</div>
-    <p class="hero-desc" id="heroDesc">نحوّل أفكارك إلى تجارب رقمية فاخرة تجمع بين الإبداع والتكنولوجيا.</p>
+    <p class="hero-desc" id="heroDesc">نحوّل أفكارك إلى تجارب رقمية فاخرة.</p>
   </section>
 
-  <!-- خدمات مع أسعار تسويقية (قابلة للتفاوض) -->
+  <!-- الخدمات -->
   <div class="container">
     <h2 class="section-title" id="servicesTitle">خدماتنا الإبداعية</h2>
     <div class="services-grid">
-      <div class="service-card">
-        <i class="fas fa-pen-fancy service-icon"></i>
-        <h3 id="service1Title">تصميم الهوية</h3>
-        <div class="service-price" id="service1Price">تبدأ من 500 جنيه</div>
-        <p id="service1Desc">شعار متكامل، كتيب العلامة، بطاقات عمل</p>
-      </div>
-      <div class="service-card">
-        <i class="fas fa-code service-icon"></i>
-        <h3 id="service2Title">تطوير مواقع</h3>
-        <div class="service-price" id="service2Price">تبدأ من 2500 جنيه</div>
-        <p id="service2Desc">متجاوبة، سريعة، مع نظام إدارة محتوى</p>
-      </div>
-      <div class="service-card">
-        <i class="fas fa-video service-icon"></i>
-        <h3 id="service3Title">مونتاج فيديو</h3>
-        <div class="service-price" id="service3Price">تبدأ من 700 جنيه</div>
-        <p id="service3Desc">إعلانات، فيديوهات تسويقية، موشن جرافيك</p>
-      </div>
-      <div class="service-card">
-        <i class="fas fa-chart-line service-icon"></i>
-        <h3 id="service4Title">إدارة سوشيال ميديا</h3>
-        <div class="service-price" id="service4Price">تبدأ من 1500 جنيه <small id="monthly">/شهرياً</small></div>
-        <p id="service4Desc">محتوى، إعلانات، تقارير أداء</p>
-      </div>
+      <div class="service-card"><i class="fas fa-pen-fancy service-icon"></i><h3 id="service1Title">تصميم الهوية</h3><div class="service-price" id="service1Price">تبدأ من 500 جنيه</div><p id="service1Desc">شعار متكامل، كتيب العلامة، بطاقات عمل</p></div>
+      <div class="service-card"><i class="fas fa-code service-icon"></i><h3 id="service2Title">تطوير مواقع</h3><div class="service-price" id="service2Price">تبدأ من 2500 جنيه</div><p id="service2Desc">متجاوبة، سريعة، مع نظام إدارة محتوى</p></div>
+      <div class="service-card"><i class="fas fa-video service-icon"></i><h3 id="service3Title">مونتاج فيديو</h3><div class="service-price" id="service3Price">تبدأ من 700 جنيه</div><p id="service3Desc">إعلانات، فيديوهات تسويقية، موشن جرافيك</p></div>
+      <div class="service-card"><i class="fas fa-chart-line service-icon"></i><h3 id="service4Title">إدارة سوشيال ميديا</h3><div class="service-price" id="service4Price">تبدأ من 1500 جنيه <small id="monthly">/شهرياً</small></div><p id="service4Desc">محتوى، إعلانات، تقارير أداء</p></div>
     </div>
   </div>
 
-  <!-- معرض أعمال كبير (10+ عمل) -->
+  <!-- معرض الأعمال (من Firebase) -->
   <div class="container">
     <h2 class="section-title" id="portfolioTitle">أحدث أعمالنا</h2>
-    <div class="portfolio-grid">
-      <!-- 12 عمل مختلف -->
-      <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1636953056323-9c09fdd74fa6?w=400&h=400&fit=crop" alt="عمل 1"><div class="portfolio-overlay"><h4>هوية تقنية</h4></div></div>
-      <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?w=400&h=400&fit=crop" alt="عمل 2"><div class="portfolio-overlay"><h4>هوية فاخرة</h4></div></div>
-      <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=400&h=400&fit=crop" alt="عمل 3"><div class="portfolio-overlay"><h4>متجر إلكتروني</h4></div></div>
-      <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=400&fit=crop" alt="عمل 4"><div class="portfolio-overlay"><h4>تطبيق جوال</h4></div></div>
-      <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1574279048356-8d5e9b5b1e5f?w=400&h=400&fit=crop" alt="عمل 5"><div class="portfolio-overlay"><h4>إعلان متحرك</h4></div></div>
-      <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?w=400&h=400&fit=crop" alt="عمل 6"><div class="portfolio-overlay"><h4>فيديو تسويقي</h4></div></div>
-      <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1634712282287-14ed57b9cc89?w=400&h=400&fit=crop" alt="عمل 7"><div class="portfolio-overlay"><h4>هوية شركة</h4></div></div>
-      <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1547658719-da2b51169166?w=400&h=400&fit=crop" alt="عمل 8"><div class="portfolio-overlay"><h4>موقع شخصي</h4></div></div>
-      <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1578022761797-b8636ac1773c?w=400&h=400&fit=crop" alt="عمل 9"><div class="portfolio-overlay"><h4>فيديو تعريفي</h4></div></div>
-      <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=400&fit=crop" alt="عمل 10"><div class="portfolio-overlay"><h4>تصميم تطبيق</h4></div></div>
-      <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=400&fit=crop" alt="عمل 11"><div class="portfolio-overlay"><h4>هوية مطعم</h4></div></div>
-      <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=400&h=400&fit=crop" alt="عمل 12"><div class="portfolio-overlay"><h4>تصميم ويب</h4></div></div>
-    </div>
+    <div class="portfolio-grid" id="portfolioGrid"></div>
   </div>
 
-  <!-- تصاميم تسويقية كثيرة (شبكة إضافية) -->
+  <!-- أعمال مميزة (من Firebase) -->
   <div class="container">
     <h2 class="section-title" id="showcaseTitle">أعمال مميزة</h2>
-    <div class="showcase-grid">
-      <div class="showcase-item"><img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=300&fit=crop" alt="شعار"><div class="showcase-overlay"><h4>هوية عصرية</h4><p id="showcase1Desc">تصميم جريء</p><button class="btn-small" onclick="document.getElementById('contact').scrollIntoView()">اطلب الخدمة</button></div></div>
-      <div class="showcase-item"><img src="https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?w=400&h=300&fit=crop" alt="موقع"><div class="showcase-overlay"><h4>متجر الكتروني</h4><p id="showcase2Desc">تجربة مستخدم سلسة</p><button class="btn-small" onclick="document.getElementById('contact').scrollIntoView()">اطلب الخدمة</button></div></div>
-      <div class="showcase-item"><img src="https://images.unsplash.com/photo-1574717024453-354056afafff?w=400&h=300&fit=crop" alt="فيديو"><div class="showcase-overlay"><h4>فيديو برومو</h4><p id="showcase3Desc">مونتاج احترافي</p><button class="btn-small" onclick="document.getElementById('contact').scrollIntoView()">اطلب الخدمة</button></div></div>
-      <div class="showcase-item"><img src="https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=400&h=300&fit=crop" alt="تطبيق"><div class="showcase-overlay"><h4>تطبيق جوال</h4><p id="showcase4Desc">UI/UX حديث</p><button class="btn-small" onclick="document.getElementById('contact').scrollIntoView()">اطلب الخدمة</button></div></div>
-      <div class="showcase-item"><img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=400&h=300&fit=crop" alt="هوية"><div class="showcase-overlay"><h4>هوية متكاملة</h4><p>لشركة ناشئة</p><button class="btn-small" onclick="document.getElementById('contact').scrollIntoView()">اطلب الخدمة</button></div></div>
-      <div class="showcase-item"><img src="https://images.unsplash.com/photo-1557838923-2985c318be48?w=400&h=300&fit=crop" alt="براند"><div class="showcase-overlay"><h4>علامة تجارية</h4><p>هوية بصرية</p><button class="btn-small" onclick="document.getElementById('contact').scrollIntoView()">اطلب الخدمة</button></div></div>
-    </div>
+    <div class="showcase-grid" id="showcaseGrid"></div>
   </div>
 
-  <!-- النموذج (تسجيل البيانات) -->
+  <!-- نموذج الطلب -->
   <div class="container" id="contact">
     <div class="form-block">
-      <h2 style="text-align:center; margin-bottom:30px; color:var(--gold2);" id="formTitle">اطلب خدمتك الآن</h2>
+      <h2 style="text-align:center; color:var(--gold2);" id="formTitle">اطلب خدمتك الآن</h2>
       <form id="leadForm">
-        <div class="input-group"><input type="text" id="name" placeholder="الاسم الكامل" required></div>
-        <div class="input-group"><input type="text" id="country" placeholder="الدولة" required></div>
-        <div class="input-group"><input type="tel" id="phone" placeholder="رقم الواتساب (مثال: 201234567890)" required></div>
-        <div class="input-group">
-          <select id="serviceType" required>
-            <option value="" disabled selected>-- اختر الخدمة المطلوبة --</option>
-            <option value="شعار">تصميم شعار</option>
-            <option value="موقع">تطوير موقع</option>
-            <option value="تطبيق">تطبيق جوال</option>
-            <option value="فيديو">مونتاج فيديو</option>
-            <option value="اشتراك شهري">باقة سوشيال شهرية</option>
-          </select>
-        </div>
-        <div class="input-group"><textarea id="details" rows="5" placeholder="تفاصيل المشروع (كلما أوضحت أكثر كان أفضل)" required></textarea></div>
-        <button type="submit" class="btn-gold" id="submitBtn">🚀 إرسال الطلب عبر واتساب</button>
+        <input type="text" id="name" placeholder="الاسم الكامل" required>
+        <input type="text" id="country" placeholder="الدولة" required>
+        <input type="tel" id="phone" placeholder="رقم الواتساب" required>
+        <select id="serviceType" required>
+          <option value="" disabled selected>-- اختر الخدمة --</option>
+          <option value="شعار">تصميم شعار</option>
+          <option value="موقع">تطوير موقع</option>
+          <option value="تطبيق">تطبيق جوال</option>
+          <option value="فيديو">مونتاج فيديو</option>
+          <option value="اشتراك شهري">باقة سوشيال شهرية</option>
+        </select>
+        <textarea id="details" rows="5" placeholder="تفاصيل المشروع" required></textarea>
+        <button type="submit" class="btn-gold" id="submitBtn">🚀 إرسال الطلب</button>
       </form>
-      <p style="text-align:center; opacity:0.5; margin-top:20px;" id="privacyNote">جميع البيانات تُرسل بتشفير عبر واتساب، لا يتم تخزين أي شيء.</p>
     </div>
   </div>
 
-  <!-- واتساب خدمة العملاء -->
+  <!-- واتساب -->
   <a href="https://wa.me/201507085211" target="_blank" class="whatsapp-float">
-    <i class="fab fa-whatsapp"></i>
-    <span id="whatsappText">خدمة العملاء</span>
+    <i class="fab fa-whatsapp"></i> <span id="whatsappText">خدمة العملاء</span>
   </a>
 
-  <footer>MRMES Creative Agency © 2025 – حيث تلتقي الفخامة بالابتكار</footer>
+  <footer>MRMES Creative Agency © 2025</footer>
 
   <script>
     (function() {
-      // الترجمة الكاملة والمضمونة
+      // ========== منع قائمة السياق (يمنع حفظ الصور) ==========
+      document.addEventListener('contextmenu', e => e.preventDefault());
+
+      // ========== إعداد Firebase (استبدل بالقيم الخاصة بك) ==========
+      const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_AUTH_DOMAIN",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_STORAGE_BUCKET",
+        messagingSenderId: "YOUR_SENDER_ID",
+        appId: "YOUR_APP_ID"
+      };
+      const useFirebase = firebaseConfig.apiKey !== "YOUR_API_KEY";
+
+      let app, auth, db;
+      if (useFirebase) {
+        app = firebase.initializeApp(firebaseConfig);
+        auth = firebase.auth();
+        db = firebase.firestore();
+        console.log('🔥 Firebase initialized');
+      } else {
+        console.warn('⚠️ Firebase not configured, using static data');
+      }
+
+      // ========== بيانات ثابتة احتياطية ==========
+      const staticPortfolio = [
+        { imageUrl: 'https://images.unsplash.com/photo-1636953056323-9c09fdd74fa6?w=400&h=400&fit=crop', title: 'هوية تقنية', description: '' },
+        { imageUrl: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?w=400&h=400&fit=crop', title: 'هوية فاخرة', description: '' },
+      ];
+      const staticShowcase = [
+        { imageUrl: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=300&fit=crop', title: 'هوية عصرية', description: 'تصميم جريء' },
+      ];
+
+      // ========== تحميل البيانات ==========
+      async function loadPortfolio() {
+        const grid = document.getElementById('portfolioGrid');
+        grid.innerHTML = '';
+        let items = [];
+        if (useFirebase) {
+          const snapshot = await db.collection('portfolio').get();
+          items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        } else {
+          items = staticPortfolio;
+        }
+        items.forEach(item => {
+          const div = document.createElement('div');
+          div.className = 'portfolio-item';
+          div.innerHTML = `
+            <img src="${item.imageUrl}" alt="${item.title}" loading="lazy">
+            <div class="portfolio-overlay">
+              <h4>${item.title}</h4>
+              ${item.description ? `<p>${item.description}</p>` : ''}
+              ${item.videoLink ? `<a href="${item.videoLink}" target="_blank" rel="noopener noreferrer" class="btn-small">مشاهدة</a>` : ''}
+            </div>
+          `;
+          grid.appendChild(div);
+        });
+      }
+
+      async function loadShowcase() {
+        const grid = document.getElementById('showcaseGrid');
+        grid.innerHTML = '';
+        let items = [];
+        if (useFirebase) {
+          const snapshot = await db.collection('showcase').get();
+          items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        } else {
+          items = staticShowcase;
+        }
+        items.forEach(item => {
+          const div = document.createElement('div');
+          div.className = 'showcase-item';
+          div.innerHTML = `
+            <img src="${item.imageUrl}" alt="${item.title}" loading="lazy">
+            <div class="showcase-overlay">
+              <h4>${item.title}</h4>
+              <p>${item.description || ''}</p>
+              <button class="btn-small" onclick="document.getElementById('contact').scrollIntoView()">اطلب الخدمة</button>
+            </div>
+          `;
+          grid.appendChild(div);
+        });
+      }
+
+      loadPortfolio();
+      loadShowcase();
+
+      // ========== نظام الترجمة (مختصر) ==========
+      // (يمكنك توسيعه حسب الحاجة)
       const translations = {
         ar: {
-          ticker: "✨ جميع التصميمات تُنفذ تحت نخبة من الخبراء | يتم عرض كل مشروع على مصممين متخصصين للتقييم وضمان أعلى جودة قبل التسليم ✨",
           heroSubhead: "وكالة إبداع رقمي متكاملة 👑",
-          heroDesc: "نحوّل أفكارك إلى تجارب رقمية فاخرة تجمع بين الإبداع والتكنولوجيا.",
+          heroDesc: "نحوّل أفكارك إلى تجارب رقمية فاخرة.",
           servicesTitle: "خدماتنا الإبداعية",
           service1Title: "تصميم الهوية",
           service1Price: "تبدأ من 500 جنيه",
@@ -542,5 +402,39 @@
           monthly: "/شهرياً",
           portfolioTitle: "أحدث أعمالنا",
           showcaseTitle: "أعمال مميزة",
-          showcase1Desc: "تصميم جريء",
-          showcase2Desc: "
+          formTitle: "اطلب خدمتك الآن",
+          submitBtn: "🚀 إرسال الطلب",
+          whatsappText: "خدمة العملاء",
+        },
+        en: {
+          heroSubhead: "Integrated Digital Creative Agency 👑",
+          heroDesc: "We turn your ideas into luxurious digital experiences.",
+          servicesTitle: "Our Creative Services",
+          service1Title: "Brand Identity",
+          service1Price: "Starting at $500",
+          service1Desc: "Complete logo, brand guide, business cards",
+          service2Title: "Web Development",
+          service2Price: "Starting at $2500",
+          service2Desc: "Responsive, fast, CMS included",
+          service3Title: "Video Editing",
+          service3Price: "Starting at $700",
+          service3Desc: "Ads, marketing videos, motion graphics",
+          service4Title: "Social Media Management",
+          service4Price: "Starting at $1500",
+          monthly: "/monthly",
+          portfolioTitle: "Our Latest Work",
+          showcaseTitle: "Featured Works",
+          formTitle: "Request Your Service Now",
+          submitBtn: "🚀 Send Request",
+          whatsappText: "Customer Service",
+        }
+      };
+
+      function applyLanguage(lang) {
+        const t = translations[lang];
+        document.getElementById('heroSubhead').innerText = t.heroSubhead;
+        document.getElementById('heroDesc').innerText = t.heroDesc;
+        document.getElementById('servicesTitle').innerText = t.servicesTitle;
+        document.getElementById('service1Title').innerText = t.service1Title;
+        document.getElementById('service1Price').innerText = t.service1Price;
+     
