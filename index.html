@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MRMES · الوكالة الرقمية 👑</title>
-  <!-- Fonts: Cinzel للشعار، Cairo للعربية، Poppins للإنجليزية -->
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Cairo:wght@400;600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <!-- Font Awesome 6 (مجاني) -->
+  <!-- Font Awesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * {
@@ -75,7 +75,7 @@
       top: 60px;
       right: 20px;
       z-index: 9998;
-      background: rgba(0,0,0,0.6);
+      background: rgba(0,0,0,0.7);
       backdrop-filter: blur(8px);
       border: 1px solid var(--gold2);
       border-radius: 50px;
@@ -211,28 +211,7 @@
       margin: 15px 0 5px;
     }
 
-    /* معرض الأعمال (Portfolio) */
-    .portfolio-filter {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      flex-wrap: wrap;
-      margin-bottom: 40px;
-    }
-    .filter-btn {
-      background: transparent;
-      border: 1px solid var(--gold2);
-      color: #fff;
-      padding: 8px 28px;
-      border-radius: 50px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .filter-btn.active, .filter-btn:hover {
-      background: var(--gold2);
-      color: #000;
-    }
+    /* معرض الأعمال (Portfolio) مع صور كثيرة */
     .portfolio-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -268,7 +247,7 @@
       transform: scale(1.1);
     }
 
-    /* تصاميم تسويقية إضافية (شبكة أعمال) */
+    /* تصاميم تسويقية إضافية (شبكة أعمال كثيرة) */
     .showcase-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -329,43 +308,6 @@
       background: #fff;
     }
 
-    /* شهادات العملاء */
-    .testimonials-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
-      margin: 50px 0;
-    }
-    .testimonial-card {
-      background: rgba(30,30,40,0.6);
-      backdrop-filter: blur(5px);
-      border: 1px solid var(--glass-border);
-      border-radius: 30px;
-      padding: 30px;
-    }
-    .stars {
-      color: var(--gold2);
-      margin-bottom: 15px;
-      font-size: 1.2rem;
-    }
-    .client-info {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      margin-top: 20px;
-    }
-    .client-img {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: linear-gradient(45deg, var(--gold2), var(--gold1));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      color: #000;
-    }
-
     /* النموذج الذكي */
     .form-block {
       background: rgba(20,20,30,0.9);
@@ -412,7 +354,7 @@
       box-shadow: 0 0 40px #f9e27d;
     }
 
-    /* واتساب + خدمة العملاء */
+    /* واتساب خدمة العملاء */
     .whatsapp-float {
       position: fixed;
       bottom: 30px;
@@ -439,15 +381,12 @@
       background: linear-gradient(145deg, #f9e27d, #d4af37);
     }
 
-    /* تذييل */
     footer {
       text-align: center;
       padding: 35px;
       border-top: 1px solid rgba(212,175,55,0.2);
-      font-size: 1rem;
     }
 
-    /* Responsive */
     @media (max-width: 700px) {
       .logo-text { font-size: 55px; }
       .subhead { font-size: 1.6rem; }
@@ -461,20 +400,17 @@
 <body>
   <canvas id="bg-canvas"></canvas>
 
-  <!-- الشريط العلوي -->
   <div class="top-ticker">
     <div class="ticker-track" id="tickerText">
       ✨ جميع التصميمات تُنفذ تحت نخبة من الخبراء | يتم عرض كل مشروع على مصممين متخصصين للتقييم وضمان أعلى جودة قبل التسليم ✨
     </div>
   </div>
 
-  <!-- زر تبديل اللغة -->
   <div class="lang-switch">
     <button id="langAr" class="active">عربي</button>
     <button id="langEn">English</button>
   </div>
 
-  <!-- الهيدر -->
   <section class="hero">
     <div class="logo-wrapper">
       <svg class="crown" viewBox="0 0 512 512">
@@ -486,7 +422,7 @@
     <p class="hero-desc" id="heroDesc">نحوّل أفكارك إلى تجارب رقمية فاخرة تجمع بين الإبداع والتكنولوجيا.</p>
   </section>
 
-  <!-- خدماتنا (مع أسعار تسويقية) -->
+  <!-- خدمات مع أسعار تسويقية (قابلة للتفاوض) -->
   <div class="container">
     <h2 class="section-title" id="servicesTitle">خدماتنا الإبداعية</h2>
     <div class="services-grid">
@@ -517,127 +453,47 @@
     </div>
   </div>
 
-  <!-- معرض الأعمال (Portfolio) -->
+  <!-- معرض أعمال كبير (10+ عمل) -->
   <div class="container">
     <h2 class="section-title" id="portfolioTitle">أحدث أعمالنا</h2>
-    <div class="portfolio-filter">
-      <button class="filter-btn active" data-filter="all" id="filterAll">الكل</button>
-      <button class="filter-btn" data-filter="identity" id="filterIdentity">هويات</button>
-      <button class="filter-btn" data-filter="web" id="filterWeb">مواقع</button>
-      <button class="filter-btn" data-filter="video" id="filterVideo">فيديو</button>
-    </div>
     <div class="portfolio-grid">
-      <div class="portfolio-item" data-category="identity">
-        <img src="https://images.unsplash.com/photo-1636953056323-9c09fdd74fa6?w=400&h=400&fit=crop" alt="هوية 1">
-        <div class="portfolio-overlay"><h4>هوية تقنية</h4></div>
-      </div>
-      <div class="portfolio-item" data-category="identity">
-        <img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?w=400&h=400&fit=crop" alt="هوية 2">
-        <div class="portfolio-overlay"><h4>هوية فاخرة</h4></div>
-      </div>
-      <div class="portfolio-item" data-category="web">
-        <img src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=400&h=400&fit=crop" alt="موقع 1">
-        <div class="portfolio-overlay"><h4>متجر إلكتروني</h4></div>
-      </div>
-      <div class="portfolio-item" data-category="web">
-        <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=400&fit=crop" alt="تطبيق">
-        <div class="portfolio-overlay"><h4>تطبيق جوال</h4></div>
-      </div>
-      <div class="portfolio-item" data-category="video">
-        <img src="https://images.unsplash.com/photo-1574279048356-8d5e9b5b1e5f?w=400&h=400&fit=crop" alt="فيديو 1">
-        <div class="portfolio-overlay"><h4>إعلان متحرك</h4></div>
-      </div>
-      <div class="portfolio-item" data-category="video">
-        <img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?w=400&h=400&fit=crop" alt="فيديو 2">
-        <div class="portfolio-overlay"><h4>فيديو تسويقي</h4></div>
-      </div>
+      <!-- 12 عمل مختلف -->
+      <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1636953056323-9c09fdd74fa6?w=400&h=400&fit=crop" alt="عمل 1"><div class="portfolio-overlay"><h4>هوية تقنية</h4></div></div>
+      <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?w=400&h=400&fit=crop" alt="عمل 2"><div class="portfolio-overlay"><h4>هوية فاخرة</h4></div></div>
+      <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=400&h=400&fit=crop" alt="عمل 3"><div class="portfolio-overlay"><h4>متجر إلكتروني</h4></div></div>
+      <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=400&fit=crop" alt="عمل 4"><div class="portfolio-overlay"><h4>تطبيق جوال</h4></div></div>
+      <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1574279048356-8d5e9b5b1e5f?w=400&h=400&fit=crop" alt="عمل 5"><div class="portfolio-overlay"><h4>إعلان متحرك</h4></div></div>
+      <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?w=400&h=400&fit=crop" alt="عمل 6"><div class="portfolio-overlay"><h4>فيديو تسويقي</h4></div></div>
+      <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1634712282287-14ed57b9cc89?w=400&h=400&fit=crop" alt="عمل 7"><div class="portfolio-overlay"><h4>هوية شركة</h4></div></div>
+      <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1547658719-da2b51169166?w=400&h=400&fit=crop" alt="عمل 8"><div class="portfolio-overlay"><h4>موقع شخصي</h4></div></div>
+      <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1578022761797-b8636ac1773c?w=400&h=400&fit=crop" alt="عمل 9"><div class="portfolio-overlay"><h4>فيديو تعريفي</h4></div></div>
+      <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=400&fit=crop" alt="عمل 10"><div class="portfolio-overlay"><h4>تصميم تطبيق</h4></div></div>
+      <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=400&fit=crop" alt="عمل 11"><div class="portfolio-overlay"><h4>هوية مطعم</h4></div></div>
+      <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=400&h=400&fit=crop" alt="عمل 12"><div class="portfolio-overlay"><h4>تصميم ويب</h4></div></div>
     </div>
   </div>
 
-  <!-- تصاميم تسويقية إضافية (عرض أعمال كثيرة) -->
+  <!-- تصاميم تسويقية كثيرة (شبكة إضافية) -->
   <div class="container">
     <h2 class="section-title" id="showcaseTitle">أعمال مميزة</h2>
     <div class="showcase-grid">
-      <div class="showcase-item">
-        <img src="https://images.unsplash.com/photo-1634712282287-14ed57b9cc89?w=400&h=300&fit=crop" alt="هوية شركة">
-        <div class="showcase-overlay">
-          <h4>هوية شركة ناشئة</h4>
-          <p id="showcase1Desc">تصميم عصري وجريء</p>
-          <button class="btn-small" onclick="document.getElementById('contact').scrollIntoView()">اطلب الخدمة</button>
-        </div>
-      </div>
-      <div class="showcase-item">
-        <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?w=400&h=300&fit=crop" alt="موقع شخصي">
-        <div class="showcase-overlay">
-          <h4>موقع شخصي</h4>
-          <p id="showcase2Desc">للمبدعين والمستقلين</p>
-          <button class="btn-small" onclick="document.getElementById('contact').scrollIntoView()">اطلب الخدمة</button>
-        </div>
-      </div>
-      <div class="showcase-item">
-        <img src="https://images.unsplash.com/photo-1578022761797-b8636ac1773c?w=400&h=300&fit=crop" alt="فيديو تعريفي">
-        <div class="showcase-overlay">
-          <h4>فيديو تعريفي</h4>
-          <p id="showcase3Desc">للشركات والمؤسسات</p>
-          <button class="btn-small" onclick="document.getElementById('contact').scrollIntoView()">اطلب الخدمة</button>
-        </div>
-      </div>
-      <div class="showcase-item">
-        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop" alt="تصميم تطبيق">
-        <div class="showcase-overlay">
-          <h4>تصميم تطبيق</h4>
-          <p id="showcase4Desc">UI/UX حديث</p>
-          <button class="btn-small" onclick="document.getElementById('contact').scrollIntoView()">اطلب الخدمة</button>
-        </div>
-      </div>
+      <div class="showcase-item"><img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=300&fit=crop" alt="شعار"><div class="showcase-overlay"><h4>هوية عصرية</h4><p id="showcase1Desc">تصميم جريء</p><button class="btn-small" onclick="document.getElementById('contact').scrollIntoView()">اطلب الخدمة</button></div></div>
+      <div class="showcase-item"><img src="https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?w=400&h=300&fit=crop" alt="موقع"><div class="showcase-overlay"><h4>متجر الكتروني</h4><p id="showcase2Desc">تجربة مستخدم سلسة</p><button class="btn-small" onclick="document.getElementById('contact').scrollIntoView()">اطلب الخدمة</button></div></div>
+      <div class="showcase-item"><img src="https://images.unsplash.com/photo-1574717024453-354056afafff?w=400&h=300&fit=crop" alt="فيديو"><div class="showcase-overlay"><h4>فيديو برومو</h4><p id="showcase3Desc">مونتاج احترافي</p><button class="btn-small" onclick="document.getElementById('contact').scrollIntoView()">اطلب الخدمة</button></div></div>
+      <div class="showcase-item"><img src="https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=400&h=300&fit=crop" alt="تطبيق"><div class="showcase-overlay"><h4>تطبيق جوال</h4><p id="showcase4Desc">UI/UX حديث</p><button class="btn-small" onclick="document.getElementById('contact').scrollIntoView()">اطلب الخدمة</button></div></div>
+      <div class="showcase-item"><img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=400&h=300&fit=crop" alt="هوية"><div class="showcase-overlay"><h4>هوية متكاملة</h4><p>لشركة ناشئة</p><button class="btn-small" onclick="document.getElementById('contact').scrollIntoView()">اطلب الخدمة</button></div></div>
+      <div class="showcase-item"><img src="https://images.unsplash.com/photo-1557838923-2985c318be48?w=400&h=300&fit=crop" alt="براند"><div class="showcase-overlay"><h4>علامة تجارية</h4><p>هوية بصرية</p><button class="btn-small" onclick="document.getElementById('contact').scrollIntoView()">اطلب الخدمة</button></div></div>
     </div>
   </div>
 
-  <!-- شهادات العملاء -->
-  <div class="container">
-    <h2 class="section-title" id="testimonialsTitle">ماذا يقول عملاؤنا</h2>
-    <div class="testimonials-grid">
-      <div class="testimonial-card">
-        <div class="stars">★★★★★</div>
-        <p id="testimonial1">"فريق محترف جداً، تنفيذ بأعلى جودة وتسليم قبل الموعد."</p>
-        <div class="client-info">
-          <div class="client-img">أ.س</div>
-          <div><strong>أحمد السيد</strong> – شركة تك</div>
-        </div>
-      </div>
-      <div class="testimonial-card">
-        <div class="stars">★★★★★</div>
-        <p id="testimonial2">"تصميم هوية متكاملة لعلامتنا، لمسة فنية رائعة واحترافية."</p>
-        <div class="client-info">
-          <div class="client-img">ن.م</div>
-          <div><strong>نورة المطيري</strong> – مديرة تسويق</div>
-        </div>
-      </div>
-      <div class="testimonial-card">
-        <div class="stars">★★★★☆</div>
-        <p id="testimonial3">"سريعون في الرد والتعديل، أنصح بالتعامل معهم بثقة."</p>
-        <div class="client-info">
-          <div class="client-img">م.ع</div>
-          <div><strong>محمد علي</strong> – رائد أعمال</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- النموذج المتطور (تسجيل البيانات) -->
+  <!-- النموذج (تسجيل البيانات) -->
   <div class="container" id="contact">
     <div class="form-block">
       <h2 style="text-align:center; margin-bottom:30px; color:var(--gold2);" id="formTitle">اطلب خدمتك الآن</h2>
       <form id="leadForm">
-        <div class="input-group">
-          <input type="text" id="name" placeholder="الاسم الكامل" required>
-        </div>
-        <div class="input-group">
-          <input type="text" id="country" placeholder="الدولة" required>
-        </div>
-        <div class="input-group">
-          <input type="tel" id="phone" placeholderرقم الواتساب (مثال: 201234567890)" required>
-        </div>
+        <div class="input-group"><input type="text" id="name" placeholder="الاسم الكامل" required></div>
+        <div class="input-group"><input type="text" id="country" placeholder="الدولة" required></div>
+        <div class="input-group"><input type="tel" id="phone" placeholder="رقم الواتساب (مثال: 201234567890)" required></div>
         <div class="input-group">
           <select id="serviceType" required>
             <option value="" disabled selected>-- اختر الخدمة المطلوبة --</option>
@@ -648,4 +504,43 @@
             <option value="اشتراك شهري">باقة سوشيال شهرية</option>
           </select>
         </div>
-   
+        <div class="input-group"><textarea id="details" rows="5" placeholder="تفاصيل المشروع (كلما أوضحت أكثر كان أفضل)" required></textarea></div>
+        <button type="submit" class="btn-gold" id="submitBtn">🚀 إرسال الطلب عبر واتساب</button>
+      </form>
+      <p style="text-align:center; opacity:0.5; margin-top:20px;" id="privacyNote">جميع البيانات تُرسل بتشفير عبر واتساب، لا يتم تخزين أي شيء.</p>
+    </div>
+  </div>
+
+  <!-- واتساب خدمة العملاء -->
+  <a href="https://wa.me/201507085211" target="_blank" class="whatsapp-float">
+    <i class="fab fa-whatsapp"></i>
+    <span id="whatsappText">خدمة العملاء</span>
+  </a>
+
+  <footer>MRMES Creative Agency © 2025 – حيث تلتقي الفخامة بالابتكار</footer>
+
+  <script>
+    (function() {
+      // الترجمة الكاملة والمضمونة
+      const translations = {
+        ar: {
+          ticker: "✨ جميع التصميمات تُنفذ تحت نخبة من الخبراء | يتم عرض كل مشروع على مصممين متخصصين للتقييم وضمان أعلى جودة قبل التسليم ✨",
+          heroSubhead: "وكالة إبداع رقمي متكاملة 👑",
+          heroDesc: "نحوّل أفكارك إلى تجارب رقمية فاخرة تجمع بين الإبداع والتكنولوجيا.",
+          servicesTitle: "خدماتنا الإبداعية",
+          service1Title: "تصميم الهوية",
+          service1Price: "تبدأ من 500 جنيه",
+          service1Desc: "شعار متكامل، كتيب العلامة، بطاقات عمل",
+          service2Title: "تطوير مواقع",
+          service2Price: "تبدأ من 2500 جنيه",
+          service2Desc: "متجاوبة، سريعة، مع نظام إدارة محتوى",
+          service3Title: "مونتاج فيديو",
+          service3Price: "تبدأ من 700 جنيه",
+          service3Desc: "إعلانات، فيديوهات تسويقية، موشن جرافيك",
+          service4Title: "إدارة سوشيال ميديا",
+          service4Price: "تبدأ من 1500 جنيه",
+          monthly: "/شهرياً",
+          portfolioTitle: "أحدث أعمالنا",
+          showcaseTitle: "أعمال مميزة",
+          showcase1Desc: "تصميم جريء",
+          showcase2Desc: "
