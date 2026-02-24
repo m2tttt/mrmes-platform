@@ -1,93 +1,166 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MRMES 👑 Digital Agency</title>
+<title>MRMES 👑 | Creative Agency</title>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
 
 <style>
-body{margin:0;font-family:'Arial',sans-serif;background:#0f172a;color:#fff}
-header{padding:100px 20px;text-align:center;background:linear-gradient(135deg,#0f172a,#1e293b)}
-h1{font-size:42px;margin:0}
-.gold{color:#facc15}
-.section{padding:70px 20px;text-align:center}
-.stats{display:flex;justify-content:center;gap:40px;flex-wrap:wrap}
-.stat{background:#1e293b;padding:30px;border-radius:12px;width:220px;box-shadow:0 0 20px rgba(0,0,0,.4)}
-.stat h2{font-size:36px;color:#facc15;margin:0}
-.services{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:25px;margin-top:40px}
-.card{background:#1e293b;padding:25px;border-radius:12px;transition:.3s}
-.card:hover{transform:translateY(-5px);box-shadow:0 0 25px rgba(250,204,21,.2)}
-form{max-width:550px;margin:auto;margin-top:40px}
-input,textarea,button{width:100%;padding:14px;margin-bottom:15px;border-radius:8px;border:none;font-size:15px}
-button{background:#facc15;font-weight:bold;cursor:pointer}
-button:hover{opacity:.9}
-.success{background:#16a34a;padding:12px;border-radius:6px;margin-bottom:15px;display:none}
-footer{padding:30px;text-align:center;background:#111}
-@media(max-width:600px){
-h1{font-size:30px}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif}
+body{background:#06101c;color:white;line-height:1.8;overflow-x:hidden}
+
+/* ====== TOP BAR RTL FIXED ====== */
+.top-bar{
+background:linear-gradient(90deg,#d4af37,#f9e27d,#d4af37);
+color:black;
+font-weight:700;
+padding:12px 0;
+overflow:hidden;
+white-space:nowrap;
+direction:rtl;
+position:relative;
+}
+.top-bar span{
+display:inline-block;
+position:relative;
+right:-100%;
+animation:marqueeRTL 18s linear infinite;
+}
+@keyframes marqueeRTL{
+0%{ right:-100%; }
+100%{ right:100%; }
+}
+
+/* ====== HERO ====== */
+.hero{text-align:center;padding:100px 20px}
+.logo{
+font-size:70px;font-weight:800;color:#d4af37;
+letter-spacing:8px;position:relative
+}
+.logo::after{
+content:"👑";position:absolute;top:-45px;
+left:50%;transform:translateX(-50%);
+font-size:40px;
+}
+.subtitle{margin-top:15px;font-size:22px;opacity:.9}
+
+/* ====== DESCRIPTION BOX ====== */
+.desc-box{
+max-width:900px;margin:60px auto;padding:40px;
+border-radius:20px;background:#0d1a2b;
+border:1px solid rgba(212,175,55,.3);text-align:center
+}
+.desc-box h3{color:#d4af37;margin-bottom:15px}
+
+/* ====== STATS ====== */
+.section{padding:70px 20px;max-width:1100px;margin:auto;text-align:center}
+.section h2{color:#d4af37;margin-bottom:40px}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px}
+.stat-box{
+background:#0d1a2b;padding:35px;border-radius:15px;
+border:1px solid rgba(212,175,55,.3)
+}
+.stat-box h3{font-size:40px;color:#f9e27d;margin-bottom:10px}
+
+/* ====== TABLE ====== */
+table{
+width:100%;border-collapse:collapse;margin-top:40px;
+background:#0d1a2b;border-radius:15px;overflow:hidden
+}
+th,td{padding:15px;border-bottom:1px solid rgba(212,175,55,.2);text-align:center}
+th{background:#111c2e;color:#f9e27d}
+
+/* ====== FORM ====== */
+.form-box{
+max-width:600px;margin:60px auto;background:#0d1a2b;
+padding:30px;border-radius:15px;
+border:1px solid rgba(212,175,55,.3);text-align:center
+}
+.form-box input,.form-box textarea{
+width:100%;padding:12px;margin-bottom:15px;
+border-radius:8px;border:none
+}
+.form-box button{
+width:100%;padding:14px;border:none;
+border-radius:8px;background:#d4af37;
+font-weight:700;cursor:pointer
+}
+.success{display:none;margin-top:10px;color:#4ade80;font-weight:700}
+
+/* ====== WHATSAPP ====== */
+.whatsapp{
+position:fixed;bottom:20px;left:20px;
+background:#d4af37;padding:14px 22px;
+border-radius:40px;color:black;
+text-decoration:none;font-weight:700
 }
 </style>
 </head>
 
 <body>
 
-<header>
-<h1><span class="gold">MRMES</span> 👑</h1>
-<p>وكالة إبداع رقمي متكاملة لبناء الهوية الرقمية وتطوير الحلول الذكية للشركات ورواد الأعمال</p>
-</header>
+<div class="top-bar">
+<span>✨ جميع المشاريع تتم مراجعتها من نخبة من الخبراء قبل التسليم لضمان أعلى جودة ✨</span>
+</div>
+
+<section class="hero">
+<div class="logo">MRMES</div>
+<div class="subtitle">
+وكالة إبداع رقمي متكاملة<br>
+Creative Digital Agency
+</div>
+</section>
+
+<div class="desc-box">
+<h3>من نحن | About Us</h3>
+<p>
+المنصة عبارة عن وكالة إبداع رقمي متكاملة متخصصة في بناء الهوية البصرية،
+تصميم الأنظمة الرقمية، إنتاج المحتوى المرئي، وتطوير الحلول الذكية للشركات ورواد الأعمال وصنع تصميمات لجميع المجالات.
+<br><br>
+A full-service creative digital agency specializing in branding, digital systems,
+visual production, and smart solutions for businesses and entrepreneurs.
+</p>
+</div>
 
 <section class="section">
-<h2>أرقامنا</h2>
-<div class="stats">
-<div class="stat">
-<h2 id="users">0</h2>
-<p>عميل</p>
-</div>
-<div class="stat">
-<h2 id="servicesCount">0</h2>
-<p>خدمة متخصصة</p>
-</div>
-<div class="stat">
-<h2 id="projects">0</h2>
-<p>مشروع منجز</p>
-</div>
+<h2>ملخص الأداء<br>Performance Overview</h2>
+<div class="stats-grid">
+<div class="stat-box"><h3 id="users">0</h3><p>عدد المستخدمين<br>Active Users</p></div>
+<div class="stat-box"><h3 id="projects">0</h3><p>عدد المشاريع<br>Projects Delivered</p></div>
+<div class="stat-box"><h3 id="fields">0</h3><p>عدد المجالات<br>Creative Fields</p></div>
 </div>
 </section>
 
 <section class="section">
-<h2>حلولنا الرقمية</h2>
-<div class="services">
-<div class="card">تصميم هوية بصرية احترافية</div>
-<div class="card">إدارة سوشيال ميديا</div>
-<div class="card">تطوير مواقع ومتاجر إلكترونية</div>
-<div class="card">أنظمة CRM مخصصة</div>
-<div class="card">أتمتة واتساب وبريد إلكتروني</div>
-<div class="card">تحليل بيانات وذكاء اصطناعي</div>
-<div class="card">مونتاج فيديو احترافي</div>
-<div class="card">تصميم إعلانات ممولة</div>
-</div>
+<h2>إحصائيات الخدمات المنفذة<br>Service Execution Statistics</h2>
+<table>
+<tr><th>الخدمة</th><th>Service</th><th>عدد التنفيذ</th></tr>
+<tr><td>تصميم الهوية والشعارات</td><td>Brand Identity</td><td>320</td></tr>
+<tr><td>تصميم سوشيال ميديا</td><td>Social Media</td><td>580</td></tr>
+<tr><td>تعديل الصور</td><td>Photo Editing</td><td>740</td></tr>
+<tr><td>مونتاج الفيديو</td><td>Video Production</td><td>260</td></tr>
+<tr><td>تصميم المواقع</td><td>Web Development</td><td>190</td></tr>
+<tr><td>حلول الذكاء الاصطناعي</td><td>AI Solutions</td><td>120</td></tr>
+</table>
 </section>
 
-<section class="section">
-<h2>اطلب خدمتك الآن</h2>
-
-<div class="success" id="successMsg">
-تم إرسال الطلب بنجاح... سيتم تحويلك للواتساب
+<!-- ====== FORM ====== -->
+<div class="form-box">
+<h3 style="color:#f9e27d;margin-bottom:15px">طلب خدمة | Service Request</h3>
+<input id="name" placeholder="الاسم | Name">
+<input id="phone" placeholder="رقم الهاتف | Phone">
+<textarea id="details" placeholder="تفاصيل الطلب | Details"></textarea>
+<button onclick="sendOrder()">إرسال الطلب | Submit</button>
+<div id="successMsg" class="success">تم إرسال الطلب بنجاح ✔</div>
 </div>
 
-<form onsubmit="sendOrder(event)">
-<input id="name" placeholder="الاسم بالكامل" required>
-<input id="phone" placeholder="رقم الهاتف" required>
-<textarea id="details" placeholder="اكتب تفاصيل طلبك هنا" required></textarea>
-<button type="submit">إرسال الطلب</button>
-</form>
-</section>
+<a class="whatsapp" href="https://wa.me/201507085211" target="_blank">
+WhatsApp
+</a>
 
-<footer>
-© 2026 MRMES Agency - All Rights Reserved
-</footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
 const supabase = window.supabase.createClient(
@@ -95,40 +168,36 @@ const supabase = window.supabase.createClient(
 "sb_publishable_BQ7b650L4UeuBZSSU55O2A_8rX7vE32"
 );
 
-function animate(id,start,end,duration){
-let obj=document.getElementById(id);
-let range=end-start;
-let current=start;
-let increment=end>start?1:-1;
-let stepTime=Math.abs(Math.floor(duration/range));
-let timer=setInterval(()=>{
-current+=increment;
-obj.textContent=current;
-if(current==end){clearInterval(timer);}
-},stepTime);
-}
+async function sendOrder(){
+let name=document.getElementById("name").value;
+let phone=document.getElementById("phone").value;
+let details=document.getElementById("details").value;
 
-animate("users",0,1250,2000);
-animate("servicesCount",0,85,2000);
-animate("projects",0,760,2000);
+if(!name||!phone||!details){alert("يرجى ملء جميع البيانات");return;}
 
-async function sendOrder(e){
-e.preventDefault();
-const name=document.getElementById("name").value;
-const phone=document.getElementById("phone").value;
-const details=document.getElementById("details").value;
-
-const {error}=await supabase.from("orders").insert([
-{name,phone,details}
-]);
+const {error}=await supabase.from("orders").insert([{name,phone,details}]);
 
 if(!error){
 document.getElementById("successMsg").style.display="block";
-let message=`طلب جديد:%0Aالاسم: ${name}%0Aالهاتف: ${phone}%0Aالتفاصيل: ${details}`;
+let msg=`طلب جديد:%0Aالاسم: ${name}%0Aالهاتف: ${phone}%0Aالتفاصيل: ${details}`;
 setTimeout(()=>{
-window.open(`https://wa.me/201507085211?text=${message}`,'_blank');
-},1500);
+window.open(`https://wa.me/201507085211?text=${msg}`,'_blank');
+},1000);
 }
+}
+
+function animate(id,end){
+let el=document.getElementById(id);
+let start=0;let step=end/120;
+let interval=setInterval(()=>{
+start+=step;el.textContent=Math.floor(start);
+if(start>=end) clearInterval(interval);
+},15);
+}
+window.onload=function(){
+animate("users",8500);
+animate("projects",1250);
+animate("fields",60);
 }
 </script>
 
