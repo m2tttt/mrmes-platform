@@ -1,76 +1,134 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>منصة MR Mes</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MRMES 👑 Digital Agency</title>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #0f172a;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-
-    .box {
-      background: #1e293b;
-      padding: 30px;
-      border-radius: 12px;
-      width: 350px;
-    }
-
-    input, textarea, button {
-      width: 100%;
-      margin-bottom: 10px;
-      padding: 10px;
-      border-radius: 6px;
-      border: none;
-    }
-
-    button {
-      background: #22c55e;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
-  </style>
+<style>
+body{margin:0;font-family:'Arial',sans-serif;background:#0f172a;color:#fff}
+header{padding:100px 20px;text-align:center;background:linear-gradient(135deg,#0f172a,#1e293b)}
+h1{font-size:42px;margin:0}
+.gold{color:#facc15}
+.section{padding:70px 20px;text-align:center}
+.stats{display:flex;justify-content:center;gap:40px;flex-wrap:wrap}
+.stat{background:#1e293b;padding:30px;border-radius:12px;width:220px;box-shadow:0 0 20px rgba(0,0,0,.4)}
+.stat h2{font-size:36px;color:#facc15;margin:0}
+.services{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:25px;margin-top:40px}
+.card{background:#1e293b;padding:25px;border-radius:12px;transition:.3s}
+.card:hover{transform:translateY(-5px);box-shadow:0 0 25px rgba(250,204,21,.2)}
+form{max-width:550px;margin:auto;margin-top:40px}
+input,textarea,button{width:100%;padding:14px;margin-bottom:15px;border-radius:8px;border:none;font-size:15px}
+button{background:#facc15;font-weight:bold;cursor:pointer}
+button:hover{opacity:.9}
+.success{background:#16a34a;padding:12px;border-radius:6px;margin-bottom:15px;display:none}
+footer{padding:30px;text-align:center;background:#111}
+@media(max-width:600px){
+h1{font-size:30px}
+}
+</style>
 </head>
 
 <body>
 
-  <div class="box">
-    <h2>طلب خدمة</h2>
-    <input type="text" id="name" placeholder="الاسم" />
-    <input type="text" id="phone" placeholder="رقم الهاتف" />
-    <textarea id="details" placeholder="تفاصيل الطلب"></textarea>
-    <button onclick="sendData()">إرسال</button>
-  </div>
+<header>
+<h1><span class="gold">MRMES</span> 👑</h1>
+<p>وكالة إبداع رقمي متكاملة لبناء الهوية الرقمية وتطوير الحلول الذكية للشركات ورواد الأعمال</p>
+</header>
+
+<section class="section">
+<h2>أرقامنا</h2>
+<div class="stats">
+<div class="stat">
+<h2 id="users">0</h2>
+<p>عميل</p>
+</div>
+<div class="stat">
+<h2 id="servicesCount">0</h2>
+<p>خدمة متخصصة</p>
+</div>
+<div class="stat">
+<h2 id="projects">0</h2>
+<p>مشروع منجز</p>
+</div>
+</div>
+</section>
+
+<section class="section">
+<h2>حلولنا الرقمية</h2>
+<div class="services">
+<div class="card">تصميم هوية بصرية احترافية</div>
+<div class="card">إدارة سوشيال ميديا</div>
+<div class="card">تطوير مواقع ومتاجر إلكترونية</div>
+<div class="card">أنظمة CRM مخصصة</div>
+<div class="card">أتمتة واتساب وبريد إلكتروني</div>
+<div class="card">تحليل بيانات وذكاء اصطناعي</div>
+<div class="card">مونتاج فيديو احترافي</div>
+<div class="card">تصميم إعلانات ممولة</div>
+</div>
+</section>
+
+<section class="section">
+<h2>اطلب خدمتك الآن</h2>
+
+<div class="success" id="successMsg">
+تم إرسال الطلب بنجاح... سيتم تحويلك للواتساب
+</div>
+
+<form onsubmit="sendOrder(event)">
+<input id="name" placeholder="الاسم بالكامل" required>
+<input id="phone" placeholder="رقم الهاتف" required>
+<textarea id="details" placeholder="اكتب تفاصيل طلبك هنا" required></textarea>
+<button type="submit">إرسال الطلب</button>
+</form>
+</section>
+
+<footer>
+© 2026 MRMES Agency - All Rights Reserved
+</footer>
 
 <script>
-const supabaseUrl = "https://qubtgifclqckwlozwvsc.supabase.co";
-const supabaseKey = "sb_publishable_BQ7b650L4UeuBZSSU55O2A_8rX7vE32";
-const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+const supabase = window.supabase.createClient(
+"https://qubtgifclqckwlozwvsc.supabase.co",
+"sb_publishable_BQ7b650L4UeuBZSSU55O2A_8rX7vE32"
+);
 
-async function sendData() {
-  const name = document.getElementById("name").value;
-  const phone = document.getElementById("phone").value;
-  const details = document.getElementById("details").value;
+function animate(id,start,end,duration){
+let obj=document.getElementById(id);
+let range=end-start;
+let current=start;
+let increment=end>start?1:-1;
+let stepTime=Math.abs(Math.floor(duration/range));
+let timer=setInterval(()=>{
+current+=increment;
+obj.textContent=current;
+if(current==end){clearInterval(timer);}
+},stepTime);
+}
 
-  const { error } = await supabase.from("orders").insert([
-    { name, phone, details }
-  ]);
+animate("users",0,1250,2000);
+animate("servicesCount",0,85,2000);
+animate("projects",0,760,2000);
 
-  if (error) {
-    alert("حصل خطأ");
-  } else {
-    alert("تم إرسال الطلب بنجاح");
-  }
+async function sendOrder(e){
+e.preventDefault();
+const name=document.getElementById("name").value;
+const phone=document.getElementById("phone").value;
+const details=document.getElementById("details").value;
+
+const {error}=await supabase.from("orders").insert([
+{name,phone,details}
+]);
+
+if(!error){
+document.getElementById("successMsg").style.display="block";
+let message=`طلب جديد:%0Aالاسم: ${name}%0Aالهاتف: ${phone}%0Aالتفاصيل: ${details}`;
+setTimeout(()=>{
+window.open(`https://wa.me/201507085211?text=${message}`,'_blank');
+},1500);
+}
 }
 </script>
 
